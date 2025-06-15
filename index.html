@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowRoot17 - Rap Battle Arena</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Intro Animation Screen -->
+    <div id="intro-screen" class="screen active">
+        <div class="intro-container">
+            <div class="logo-animation">
+                <h1 class="app-title">
+                    <span class="shadow">Shadow</span><span class="root">Root</span><span class="number">17</span>
+                </h1>
+                <div class="subtitle">RAP BATTLE ARENA</div>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <div class="enter-text">Press ENTER to continue</div>
+        </div>
+    </div>
+
+    <!-- Main Menu Screen -->
+    <div id="main-menu" class="screen">
+        <div class="menu-container">
+            <div class="app-header">
+                <h1 class="app-title-small">
+                    <span class="shadow">Shadow</span><span class="root">Root</span><span class="number">17</span>
+                </h1>
+            </div>
+            
+            <div class="menu-options">
+                <button id="create-room-btn" class="menu-btn primary">
+                    <span class="btn-icon">🏠</span>
+                    CREATE ROOM
+                </button>
+                <button id="join-random-btn" class="menu-btn secondary">
+                    <span class="btn-icon">🎲</span>
+                    JOIN RANDOM BATTLE
+                </button>
+                <button id="join-private-btn" class="menu-btn tertiary">
+                    <span class="btn-icon">🔐</span>
+                    JOIN PRIVATE ROOM
+                </button>
+            </div>
+
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span class="stat-label">ONLINE PLAYERS</span>
+                    <span class="stat-value" id="online-count">247</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">ACTIVE BATTLES</span>
+                    <span class="stat-value" id="battle-count">12</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Room Creation Screen -->
+    <div id="room-creation" class="screen">
+        <div class="room-container">
+            <h2 class="screen-title">CREATE BATTLE ROOM</h2>
+            
+            <div class="form-group">
+                <label for="room-name">Room Name</label>
+                <input type="text" id="room-name" placeholder="Enter room name..." maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="player-name">Your Name</label>
+                <input type="text" id="player-name" placeholder="Enter your rapper name..." maxlength="15">
+            </div>
+
+            <div class="form-group">
+                <label>Battle Format</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="battle-format" value="1v1" checked>
+                        <span class="radio-custom"></span>
+                        1v1 Battle
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="battle-format" value="2v2">
+                        <span class="radio-custom"></span>
+                        2v2 Team Battle
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Room Type</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="room-type" value="public" checked>
+                        <span class="radio-custom"></span>
+                        Public (Anyone can join)
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="room-type" value="private">
+                        <span class="radio-custom"></span>
+                        Private (Invitation code required)
+                    </label>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="create-room-confirm" class="action-btn primary">CREATE ROOM</button>
+                <button id="back-to-menu" class="action-btn secondary">BACK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Private Room Screen -->
+    <div id="join-private" class="screen">
+        <div class="join-container">
+            <h2 class="screen-title">JOIN PRIVATE ROOM</h2>
+            
+            <div class="form-group">
+                <label for="invitation-code">Invitation Code</label>
+                <input type="text" id="invitation-code" placeholder="Enter 6-digit code..." maxlength="6">
+            </div>
+
+            <div class="form-group">
+                <label for="player-name-join">Your Name</label>
+                <input type="text" id="player-name-join" placeholder="Enter your rapper name..." maxlength="15">
+            </div>
+
+            <div class="button-group">
+                <button id="join-private-confirm" class="action-btn primary">JOIN ROOM</button>
+                <button id="back-to-menu-2" class="action-btn secondary">BACK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Waiting Room Screen -->
+    <div id="waiting-room" class="screen">
+        <div class="waiting-container">
+            <h2 class="screen-title">WAITING ROOM</h2>
+            
+            <div class="room-info">
+                <div class="room-details">
+                    <span class="room-name-display" id="current-room-name">Battle Arena #1</span>
+                    <span class="room-code" id="room-code-display">Code: ABC123</span>
+                </div>
+                <div class="battle-format-display" id="battle-format-display">1v1 Battle</div>
+            </div>
+
+            <div class="players-grid" id="players-grid">
+                <!-- Players will be dynamically added here -->
+            </div>
+
+            <div class="waiting-actions">
+                <button id="start-battle-btn" class="action-btn primary" disabled>START BATTLE</button>
+                <button id="add-test-player-btn" class="action-btn tertiary">ADD TEST PLAYER</button>
+                <button id="leave-room-btn" class="action-btn secondary">LEAVE ROOM</button>
+            </div>
+
+            <div class="chat-section">
+                <div class="chat-messages" id="chat-messages"></div>
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" placeholder="Type a message..." maxlength="100">
+                    <button id="send-chat" class="chat-send-btn">SEND</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Battle Screen -->
+    <div id="battle-screen" class="screen">
+        <div class="battle-container">
+            <div class="battle-header">
+                <div class="battle-title">RAP BATTLE IN PROGRESS</div>
+                <div class="battle-timer">
+                    <div class="timer-display" id="timer-display">2:00</div>
+                    <div class="timer-bar">
+                        <div class="timer-progress" id="timer-progress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="battle-arena">
+                <div class="video-grid" id="video-grid">
+                    <!-- Video streams will be added here -->
+                </div>
+
+                <div class="battle-controls">
+                    <div class="current-turn" id="current-turn">
+                        <span class="turn-indicator">NOW RAPPING:</span>
+                        <span class="current-rapper" id="current-rapper">Player 1</span>
+                    </div>
+                    
+                    <div class="control-buttons">
+                        <button id="mute-btn" class="control-btn">
+                            <span class="btn-icon">🎤</span>
+                        </button>
+                        <button id="video-btn" class="control-btn">
+                            <span class="btn-icon">📹</span>
+                        </button>
+                        <button id="end-battle-btn" class="control-btn danger">
+                            <span class="btn-icon">🛑</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="battle-status" id="battle-status">
+                <div class="round-info">Round 1 of 2</div>
+                <div class="next-up">Next: Player 2</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voting Screen -->
+    <div id="voting-screen" class="screen">
+        <div class="voting-container">
+            <h2 class="screen-title">VOTE FOR THE WINNER</h2>
+            
+            <div class="voting-grid" id="voting-grid">
+                <!-- Voting options will be dynamically added -->
+            </div>
+
+            <div class="voting-timer">
+                <div class="voting-countdown" id="voting-countdown">30</div>
+                <div class="voting-text">seconds to vote</div>
+            </div>
+
+            <div class="vote-count" id="vote-count">
+                <div class="total-votes">Total Votes: <span id="total-votes">0</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="screen">
+        <div class="results-container">
+            <div class="winner-announcement">
+                <div class="winner-crown">👑</div>
+                <h2 class="winner-title">BATTLE WINNER</h2>
+                <div class="winner-name" id="winner-name">Player 1</div>
+                <div class="winner-votes" id="winner-votes">8 votes (67%)</div>
+            </div>
+
+            <div class="final-results" id="final-results">
+                <!-- Final vote breakdown will be shown here -->
+            </div>
+
+            <div class="results-actions">
+                <button id="rematch-btn" class="action-btn primary">REMATCH</button>
+                <button id="new-battle-btn" class="action-btn secondary">NEW BATTLE</button>
+                <button id="main-menu-btn" class="action-btn tertiary">MAIN MENU</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification-container"></div>
+
+    <!-- Audio Elements -->
+    <audio id="notification-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" type="audio/wav">
+    </audio>
+
+    <script src="script.js"></script>
+    <script src="battle.js"></script>
+    <script src="webrtc.js"></script>
+</body>
+</html>
+
